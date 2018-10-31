@@ -1,3 +1,46 @@
-<p>
-  schedule-list works!
-</p>
+<thf-page-default
+  t-title="Dashboard"
+  [t-breadcrumb]="breadcrumb">
+
+  <div class="thf-row">
+    <thf-tag class="thf-pl-1 thf-pb-2" t-value="Dados atuais" t-type="success"></thf-tag>
+  </div>
+  <div class="thf-row">
+
+    <thf-widget
+      class="thf-md-12 thf-lg-4 thf-mb-2">
+
+      <div class="thf-text-center font-style-open-number">{{ meetingsRoomOpen.length }} </div>
+      <div class="thf-text-center font-style-open-text">Salas sem reservas</div>
+    </thf-widget>
+
+    <thf-widget
+      class="thf-md-12 thf-lg-4 thf-mb-2">
+
+      <div class="thf-text-center font-style-busy-number">{{ meetingsRoomBusy.length }}</div>
+      <div class="thf-text-center font-style-busy-text">Salas com reservas</div>
+    </thf-widget>
+
+    <thf-widget
+      class="thf-md-12 thf-lg-4 thf-mb-2">
+
+      <div class="thf-text-center font-style-info-number">{{ meetingsRoomBusy.length + meetingsRoomOpen.length }} </div>
+      <div class="thf-text-center font-style-info-text  ">Quantidade de salas</div>
+    </thf-widget>
+  </div>
+
+  <hr>
+
+  <div class="thf-font-title thf-pl-1">Detalhes</div>
+  
+  <div class="thf-row thf-pt-2">
+
+    <thf-table
+      class="thf-md-12"
+      [t-columns]="columns"
+      [t-items]="allMeetingsRoom">
+    </thf-table>
+
+  </div>
+
+</thf-page-default>

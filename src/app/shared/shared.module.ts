@@ -3,15 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-// import { CookieService } from 'ngx-cookie-service';
-
 import { ThfModule } from '@totvs/thf-ui';
+
+import { InterceptorModule } from '../interceptor/interceptor.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
+    InterceptorModule,
 
     ThfModule
   ],

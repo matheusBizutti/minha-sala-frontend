@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { ThfMenuItem } from '@totvs/thf-ui/components/thf-menu';
 import { ThfToolbarAction, ThfToolbarProfile } from '@totvs/thf-ui/components/thf-toolbar';
+import { AuthService } from '../auth/auth.service';
 
 // import { AuthService } from './../auth/auth.service';
 
@@ -14,6 +15,7 @@ import { ThfToolbarAction, ThfToolbarProfile } from '@totvs/thf-ui/components/th
 export class HomeComponent implements OnInit {
 
   filter = true;
+
   items: Array<ThfMenuItem> = [
     { label: 'Pagamentos', link: './users', icon: 'user', shortLabel: 'Pagtos' },
     { label: 'Eventos', link: '', icon: 'world', shortLabel: 'Eventos' },
@@ -21,16 +23,20 @@ export class HomeComponent implements OnInit {
   ];
 
   public readonly profile: ThfToolbarProfile = {
-    subtitle: 'subtitle teste',
-    title: 'title teste'
+    title: this.authService.getUsername()
   };
 
   public readonly profileActions: Array<ThfToolbarAction> = [
-    { icon: 'thf-icon-exit', label: 'Sair', type: 'danger', separator: true, action: () => {/* call exit*/} }
+    { icon: 'thf-icon-exit', label: 'Sair', type: 'danger', separator: true, action: () => this.exit() }
   ];
 
-  constructor(private route: Router) {}
+  constructor(private route: Router, private authService: AuthService) {}
 
   ngOnInit() {}
+
+  exit() {
+    this.authService.clear();
+    this.route.navigate(['/login']);
+  }
 
 }

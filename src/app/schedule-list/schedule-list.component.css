@@ -1,0 +1,71 @@
+.font-style-busy-number {
+  font-family: NunitoSans;
+  font-size: 50px;
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.28;
+  letter-spacing: normal;
+  text-align: center;
+  color: #c64840;
+}
+
+.font-style-busy-text {
+  font-family: NunitoSans;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #c64840;
+}
+
+.font-style-open-number {
+  font-family: NunitoSans;
+  font-size: 50px;
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.28;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0c9abe;
+}
+
+.font-style-open-text {
+  font-family: NunitoSans;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0c9abe;
+}
+
+.font-style-info-number {
+  font-family: NunitoSans;
+  font-size: 50px;
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.28;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ea9b3e;
+}
+
+.font-style-info-text {
+  font-family: NunitoSans;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ea9b3e;
+}

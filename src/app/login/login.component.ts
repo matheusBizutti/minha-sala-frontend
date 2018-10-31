@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ThfPageLoginLiterals } from '@totvs/thf-ui/components/thf-page';
+import { Subscription } from 'rxjs';
+
+import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
+import { ThfPageLogin, ThfPageLoginLiterals } from '@totvs/thf-ui/components/thf-page';
+
+import { AuthService } from '../auth/auth.service';
+import { LoginService } from './login.service';
 
 
 @Component({
@@ -9,7 +15,7 @@ import { ThfPageLoginLiterals } from '@totvs/thf-ui/components/thf-page';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   customLiterals: ThfPageLoginLiterals = {
     title: 'Seja bem-vindo ao Minha sala',
@@ -18,18 +24,42 @@ export class LoginComponent implements OnInit {
     passwordErrorPattern: 'Senha obrigatória',
     passwordPlaceholder: 'Insira sua senha de acesso',
     rememberUser: 'Lembrar usuário',
-    submitLabel: 'Acessar sistema',
+    submitLabel: 'Entrar',
     forgotPassword: 'Esqueceu sua senha?'
   };
 
-  constructor(private router: Router) { }
+  private subscription: Subscription;
+
+  constructor(private router: Router,
+              private loginService: LoginService,
+              private authService: AuthService,
+              private thfNotification: ThfNotificationService) { }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   ngOnInit() {}
 
-  loginMock() {
+  signIn(formData: ThfPageLogin) {
 
-    localStorage.setItem('teste', 'logged');
-    this.router.navigate(['tocai/payments']);
+    const INVALID_ACCESS = 'Acesso inválido';
+
+    const body = {
+      username:  formData.login,
+      password: formData.password
+    };
+
+    this.subscription = this.loginService.siginAuth(body).subscribe(response => {
+
+      this.authService.setToken(response['token']);
+      this.router.navigate(['schedule-list']);
+
+    }, err => {
+      this.thfNotification.error(INVALID_ACCESS);
+    });
 
   }
 

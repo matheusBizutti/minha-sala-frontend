@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ScheduleListComponent } from './schedule-list.component';
 import { ScheduleListRouting } from './schedule-list.routing';
+import { ScheduleListService } from './schedule-list.service';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { ScheduleListRouting } from './schedule-list.routing';
   declarations: [
     ScheduleListComponent
   ],
-  providers: [],
+  providers: [ScheduleListService],
   bootstrap: []
 })
 export class ScheduleListModule { }

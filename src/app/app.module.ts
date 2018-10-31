@@ -6,7 +6,10 @@ import { AuthGuard } from './auth-guard/auth-guard.service';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { BaseUrl } from './baseurl/baseurl.service';
 import { HomeComponent } from './home/home.component';
+import { AuthService } from './auth/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,7 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     BrowserModule,
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AuthService, BaseUrl, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

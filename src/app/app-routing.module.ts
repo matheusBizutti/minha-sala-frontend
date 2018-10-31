@@ -6,7 +6,7 @@ import { AuthGuard } from './auth-guard/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: 'minha-sala', component: HomeComponent, canActivate: [AuthGuard],
+  { path: '', component: HomeComponent, canActivate: [AuthGuard],
     children: [
       { path: 'schedule-list',
         loadChildren: './schedule-list/schedule-list.module#ScheduleListModule'
