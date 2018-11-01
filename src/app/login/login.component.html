@@ -1,7 +1,8 @@
 <thf-page-login
+  t-background="../../assets/images/meetings_room.jpeg"
   t-hide-remember-user
-  t-recovery-url="http://totvs.com"
-  t-register-url="http://totvs.com"
+  t-recovery-url="/change-password"
+  t-register-url="/signup"
   [t-literals]="customLiterals"
   (t-login-submit)="signIn($event)">
 </thf-page-login>

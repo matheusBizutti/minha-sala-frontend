@@ -1,0 +1,59 @@
+<thf-page-default
+  t-title="Dashboard"
+  [t-breadcrumb]="breadcrumb">
+
+
+  <form #signupForm="ngForm">
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-6"
+        name="name"
+        [(ngModel)]="user.name"
+        t-clean
+        t-icon="thf-icon-user"
+        t-label="Nome"
+        t-required>
+      </thf-input>
+
+      <thf-input
+        class="thf-md-6"
+        name="username"
+        [(ngModel)]="user.username"
+        t-clean
+        t-icon="thf-icon-user"
+        t-label="Login"
+        t-placeholder="Informe o login de acesso ex: joao"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row">
+      <thf-password
+        class="thf-md-6"
+        name="senha"
+        [(ngModel)]="user.password"
+        t-clean
+        t-label="Senha"
+        t-required>
+      </thf-password>
+
+      <thf-password
+        class="thf-md-6"
+        name="confirmpassword"
+        [(ngModel)]="user.confirmPassword"
+        t-clean
+        t-label="Confirmar senha"
+        t-required>
+      </thf-password>
+    </div>
+
+    <div class="thf-row thf-pt-2">
+      <thf-button
+        class="thf-md-4"
+        t-label="Confirmar"
+        [t-disabled]="signupForm.invalid"
+        (t-click)="signUp()">
+      </thf-button>
+    </div>
+  </form>
+</thf-page-default>

@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     passwordPlaceholder: 'Insira sua senha de acesso',
     rememberUser: 'Lembrar usuário',
     submitLabel: 'Entrar',
-    forgotPassword: 'Esqueceu sua senha?'
+    forgotPassword: 'Esqueceu sua senha?',
+    highlightInfo: 'Agende uma sala de onde estiver, não perca tempo.'
   };
 
   private subscription: Subscription;

@@ -40,6 +40,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
       this.meetingsRoomBusy = [...response];
       this.allMeetingsRoom = [...this.meetingsRoomOpen, ...this.meetingsRoomBusy];
     });
+
   }
 
   ngOnDestroy() {

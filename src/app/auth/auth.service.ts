@@ -35,7 +35,7 @@ export class AuthService {
   setToken(token) {
     this.token = token;
     const jwtDecode = this.jwtDecode(token);
-    this.username = jwtDecode.username;
+    this.username = jwtDecode.name ? jwtDecode.name : jwtDecode.username;
     this.cookieService.set( 'token', token, undefined, '/' );
   }
 

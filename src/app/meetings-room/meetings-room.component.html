@@ -1,0 +1,117 @@
+<!-- <thf-page-edit
+  [t-breadcrumb]="breadcrumb"
+  [t-disable-submit]="formMeetingsRoom.invalid"
+  t-title="Salas">
+
+  <form #formMeetingsRoom="ngForm">
+
+  </form>
+
+</thf-page-edit> -->
+
+<thf-page-default
+  t-title="Salas"
+  [t-actions]="actions"
+  [t-breadcrumb]="breadcrumb">
+
+  <div class="thf-row">
+    <thf-widget
+      *ngFor="let meetings of allMeetingsRoom; let i = index"
+      class="thf-md-12 thf-lg-4 thf-mb-2"
+      t-primary-label="Editar"
+      t-secondary-label="Remover"
+      t-title="Sala: {{ meetings.name }}"
+      (t-primary-action)="openModal(meetings)"
+      (t-secondary-action)="openModal(meetings, '2')">
+
+      <div class="thf-font-subtitle thf-text-center">Capacidade: {{ meetings.capacity }}</div>
+      <div *ngIf="meetings.datashow; else nodatashow" class="thf-text-center">
+        <thf-tag t-type="success" t-value="DATASHOW"></thf-tag>
+      </div>
+      <ng-template #nodatashow>
+        <div class="thf-text-center">
+          <thf-tag t-type="danger" t-value="SEM DATASHOW"></thf-tag>
+        </div>
+      </ng-template>
+
+    </thf-widget>
+
+  </div>
+</thf-page-default>
+
+<thf-modal #modalEdit
+  t-close
+  t-size="lg"
+  t-title="Editar sala"
+  [t-primary-action]="editMeetingRoom">
+
+  <form #editForm="ngForm">
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-6"
+        name="name"
+        [(ngModel)]="meetingRoomEdit.name"
+        t-clean
+        t-label="Nome da sala"
+        t-required>
+      </thf-input>
+
+      <thf-input
+        class="thf-md-6"
+        name="capacity"
+        [(ngModel)]="meetingRoomEdit.capacity"
+        t-clean
+        t-label="Capacidade"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row">
+
+      <thf-select
+        class="thf-md-6"
+        name="datashow"
+        [(ngModel)]="datashow"
+        t-label="Possui datashow"
+        [t-options]="options">
+      </thf-select>
+
+      <thf-input
+        class="thf-md-6"
+        name="description"
+        [(ngModel)]="meetingRoomEdit.description"
+        t-clean
+        t-label="Descrição"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row thf-pt-2">
+      <thf-button
+        class="thf-md-6"
+        t-label="Confirmar"
+        t-primary
+        (t-click)="confirmEdit()">
+      </thf-button>
+    </div>
+
+  </form>
+
+</thf-modal>
+
+<thf-modal #modalDelete
+  t-close
+  t-title="Excluir"
+  t-size="lg"
+  [t-primary-action]="deleteMeetingRoom">
+
+  <div class="thf-font-text">Tem certeza de que deseja remover esta sala?</div>
+  <div class="thf-row thf-pt-2">
+    <thf-button
+      class="thf-md-3"
+      t-label="Confirmar"
+      t-primary
+      (t-click)="deleteMeetingRoom()">
+    </thf-button>
+  </div>
+</thf-modal>

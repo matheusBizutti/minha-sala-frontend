@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
@@ -34,7 +34,7 @@ export class Interceptor implements HttpInterceptor {
         return of(err.message);
     }
 
-    return Observable.throw(err);
+    return throwError(err);
 
   }
 

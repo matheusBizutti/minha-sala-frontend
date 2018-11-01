@@ -10,11 +10,20 @@ const routes: Routes = [
     children: [
       { path: 'schedule-list',
         loadChildren: './schedule-list/schedule-list.module#ScheduleListModule'
+      },
+      { path: 'meetings-room',
+        loadChildren: './meetings-room/meetings-room.module#MeetingsRoomModule'
       }
     ]
   },
   { path: 'login',
     loadChildren: './login/login.module#LoginModule'
+  },
+  { path: 'signup',
+    loadChildren: './signup/signup.module#SignupModule'
+  },
+  { path: 'change-password',
+    loadChildren: './change-password/change-password.module#ChangePasswordModule'
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

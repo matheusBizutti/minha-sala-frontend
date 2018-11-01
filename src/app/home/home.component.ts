@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   filter = true;
 
   items: Array<ThfMenuItem> = [
-    { label: 'Pagamentos', link: './users', icon: 'user', shortLabel: 'Pagtos' },
-    { label: 'Eventos', link: '', icon: 'world', shortLabel: 'Eventos' },
-    { label: 'Perfil', link: '', icon: 'calendar', shortLabel: 'Perfil' }
+    { label: 'Salas', link: '/meetings-room', icon: 'device-desktop', shortLabel: 'Salas' },
+    { label: 'Agendamentos', icon: 'calendar-ok', shortLabel: 'Agend.' },
+    { label: 'Métricas', link: '', icon: 'chart-area', shortLabel: 'Métricas' }
   ];
 
   public readonly profile: ThfToolbarProfile = {
