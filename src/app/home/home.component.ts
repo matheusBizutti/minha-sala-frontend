@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   items: Array<ThfMenuItem> = [
     { label: 'Salas', link: '/meetings-room', icon: 'device-desktop', shortLabel: 'Salas' },
     { label: 'Agendamentos', icon: 'calendar-ok', link: '/schedule-request', shortLabel: 'Agend.' },
-    { label: 'Métricas', link: '', icon: 'chart-area', shortLabel: 'Métricas' },
+    { label: 'Métricas', link: '/metrics', icon: 'chart-area', shortLabel: 'Métricas' },
     { label: 'Dashboard', link: '/schedule-list', icon: 'chart-area', shortLabel: 'Dashboard' }
   ];
 

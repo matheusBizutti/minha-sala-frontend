@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { ThfModule } from '@totvs/thf-ui';
 
 import { InterceptorModule } from '../interceptor/interceptor.module';
+import { MetricsService } from '../metrics/metrics.service';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { InterceptorModule } from '../interceptor/interceptor.module';
 
     ThfModule
   ],
-  providers: []
+  providers: [MetricsService]
 })
 export class SharedModule { }

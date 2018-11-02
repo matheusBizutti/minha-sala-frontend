@@ -10,7 +10,9 @@ import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
 import { ThfPageAction } from '@totvs/thf-ui/components/thf-page';
 
+import { AuthService } from '../auth/auth.service';
 import { MeetingsRoomService } from './meetings-room.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Component({
   selector: 'app-meetings-room',
@@ -25,6 +27,7 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private subscriptionDelete: Subscription;
   private subscriptionEdit: Subscription;
+  private subscriptionMetrics: Subscription;
 
   allMeetingsRoom: Array<Object> = [];
   datashow;
@@ -63,7 +66,9 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
 
   constructor(private meetingsRoomService: MeetingsRoomService,
               private thfNotification: ThfNotificationService,
-              private router: Router) {}
+              private router: Router,
+              private metricsService: MetricsService,
+              private authService: AuthService) {}
 
   ngOnDestroy() {
 
@@ -79,6 +84,10 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
       this.subscriptionDelete.unsubscribe();
     }
 
+    if (this.subscriptionMetrics) {
+      this.subscriptionMetrics.unsubscribe();
+    }
+
   }
 
   ngOnInit() {
@@ -86,6 +95,17 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
     this.meetingsRoomService.getMeetings().subscribe(response => {
       const meetingsStatusOpen = response.filter(this.filterStatusOpen);
       const meetingsStatusBusy = response.filter(this.filterStatusBusy);
+
+      const body = {
+        name: 'meetings',
+        api: '/list',
+        httpStatusCode: '200',
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(body).subscribe(res => {
+        console.log('métrica criada.');
+      });
 
       this.allMeetingsRoom = [...response];
       this.meetingsRoomOpen = [...meetingsStatusOpen];

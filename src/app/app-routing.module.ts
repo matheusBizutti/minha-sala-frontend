@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: 'schedule-request-create',
         loadChildren: './schedules-requests-create/schedules-requests-create.module#ScheduleRequestsCreateModule'
+      },
+      {
+        path: 'metrics',
+        loadChildren: './metrics/metrics.module#MetricsModule'
       }
     ]
   },

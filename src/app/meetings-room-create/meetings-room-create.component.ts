@@ -8,6 +8,8 @@ import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/
 import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 
 import { MeetingsRoomCreateService } from './meetings-room-create.service';
+import { AuthService } from '../auth/auth.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Component({
   selector: 'app-meetings-room-create',
@@ -17,6 +19,7 @@ import { MeetingsRoomCreateService } from './meetings-room-create.service';
 export class MeetingsRoomCreateComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
+  private subscriptionMetrics: Subscription;
 
   datashow;
   newRoom = {
@@ -47,11 +50,17 @@ export class MeetingsRoomCreateComponent implements OnInit, OnDestroy {
 
   constructor(private meetingsRoomCreateService: MeetingsRoomCreateService,
               private thfNotification: ThfNotificationService,
-              private router: Router) {}
+              private router: Router,
+              private authService: AuthService,
+              private metricsService: MetricsService) {}
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+
+    if (this.subscriptionMetrics) {
+      this.subscriptionMetrics.unsubscribe();
     }
   }
 
@@ -67,9 +76,33 @@ export class MeetingsRoomCreateComponent implements OnInit, OnDestroy {
     this.subscription = this.meetingsRoomCreateService.create(body).subscribe(response => {
 
       this.thfNotification.success('Nova sala cadastrada com sucesso.');
+
+      const metrics = {
+        name: 'meetings',
+        api: '/create',
+        httpStatusCode: '200',
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+        console.log('métrica criada.');
+      });
+
       this.router.navigate(['/meetings-room']);
 
     }, err => {
+
+      const metrics = {
+        name: 'meetings',
+        api: '/create',
+        httpStatusCode: err.status,
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+        console.log('métrica criada.');
+      });
+
       this.thfNotification.error('Não foi possível concluir o cadastro.');
     });
   }

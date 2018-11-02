@@ -8,6 +8,8 @@ import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/
 import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 
 import { SchedulesRequestsCreateService } from './schedules-requests-create.service';
+import { AuthService } from '../auth/auth.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Component({
   selector: 'app-schedules-requests-create',
@@ -18,6 +20,7 @@ export class SchedulesRequestsCreateComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
   private subscriptionMeetingsRoom: Subscription;
+  private subscriptionMetrics: Subscription;
 
   meetingsRoom: Array<Object> = [];
   newScheduleRequest = {
@@ -45,7 +48,9 @@ export class SchedulesRequestsCreateComponent implements OnInit, OnDestroy {
 
   constructor(private scheduleRequestsCreateService: SchedulesRequestsCreateService,
               private thfNotification: ThfNotificationService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService,
+              private metricsService: MetricsService) { }
 
   ngOnDestroy() {
 
@@ -79,10 +84,34 @@ export class SchedulesRequestsCreateComponent implements OnInit, OnDestroy {
     this.subscription = this.scheduleRequestsCreateService.create(body).subscribe(response => {
 
       this.thfNotification.success('Novo agendamento cadastrado com sucesso.');
+
+      const metrics = {
+        name: 'schedule-request',
+        api: '/create',
+        httpStatusCode: '200',
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+        console.log('métrica criada.');
+      });
+
       this.router.navigate(['/schedule-request']);
 
     }, err => {
       if (err.status === 409) {
+
+        const metrics = {
+          name: 'schedule-request',
+          api: '/create',
+          httpStatusCode: err.status,
+          user: this.authService.getUsername()
+        };
+
+        this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+          console.log('métrica criada.');
+        });
+
         this.thfNotification.error('Já existe um agendamento para essa sala nessa data e hora.');
       } else {
         this.thfNotification.error('Não foi possível concluir o cadastro.');

@@ -10,6 +10,8 @@ import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/
 import { SchedulesRequestsService } from './schedules-requests.service';
 import { ThfPageAction } from '@totvs/thf-ui/components/thf-page';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
+import { AuthService } from '../auth/auth.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Component({
   selector: 'app-schedules-requests',
@@ -24,6 +26,7 @@ export class SchedulesRequestsComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private subscriptionEdit: Subscription;
   private subscriptionDelete: Subscription;
+  private subscriptionMetrics: Subscription;
 
   schedulesRequests: Array<Object> = [];
   schedulesRequestsEdit: Array<Object> = [{
@@ -46,7 +49,9 @@ export class SchedulesRequestsComponent implements OnInit, OnDestroy {
 
   constructor(private scheduleRequestsService: SchedulesRequestsService,
               private thfNotification: ThfNotificationService,
-              private router: Router) {}
+              private router: Router,
+              private authService: AuthService,
+              private metricsService: MetricsService) {}
 
   ngOnDestroy() {
 
@@ -62,14 +67,41 @@ export class SchedulesRequestsComponent implements OnInit, OnDestroy {
       this.subscriptionDelete.unsubscribe();
     }
 
+    if (this.subscriptionMetrics) {
+      this.subscriptionMetrics.unsubscribe();
+    }
+
   }
 
   ngOnInit() {
 
     this.subscription = this.scheduleRequestsService.getSchedulesRequests().subscribe(response => {
       this.schedulesRequests = [...response];
+
+      const metrics = {
+        name: 'schedule',
+        api: '/list',
+        httpStatusCode: '200',
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+        console.log('métrica criada.');
+      });
+
     }, err => {
-      console.log(err);
+
+      const metrics = {
+        name: 'schedule',
+        api: '/list',
+        httpStatusCode: err.status,
+        user: this.authService.getUsername()
+      };
+
+      this.subscriptionMetrics = this.metricsService.create(metrics).subscribe(res => {
+        console.log('métrica criada.');
+      });
+
     });
 
   }
