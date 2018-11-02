@@ -1,0 +1,84 @@
+<thf-page-default
+  t-title="Novo agendamento"
+  [t-breadcrumb]="breadcrumb">
+
+
+  <form #nemScheduleForm="ngForm">
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-6"
+        name="title"
+        [(ngModel)]="newScheduleRequest.title"
+        t-clean
+        t-label="Título do agendamento"
+        t-required>
+      </thf-input>
+
+      <thf-select
+        class="thf-md-6"
+        name="roomid"
+        [(ngModel)]="newScheduleRequest.roomId"
+        t-label="Sala"
+        [t-options]="meetingsRoom">
+      </thf-select>
+
+    </div>
+
+    <div class="thf-row">
+
+      <thf-datepicker
+        class="thf-md-6"
+        name="scheduletime"
+        [(ngModel)]="newScheduleRequest.scheduleTime"
+        t-clean
+        t-format="dd/mm/yyyy"
+        t-label="Data do agendamento"
+        t-required>
+      </thf-datepicker>
+
+      <thf-input
+        class="thf-md-6"
+        name="hourinit"
+        [(ngModel)]="newScheduleRequest.scheduleHourInit"
+        t-clean
+        t-label="Hora inicial"
+        t-mask="99:99"
+        t-placeholder="08:00"
+        t-required>
+      </thf-input>
+
+    </div>
+
+    <div class="thf-ro">
+
+      <thf-input
+        class="thf-md-6"
+        name="hourend"
+        [(ngModel)]="newScheduleRequest.scheduleHourEnd"
+        t-clean
+        t-label="Hora final"
+        t-mask="99:99"
+        t-placeholder="10:00"
+        t-required>
+      </thf-input>
+
+      <thf-input
+        class="thf-md-6"
+        name="useremail"
+        [(ngModel)]="newScheduleRequest.userEmail"
+        t-clean
+        t-label="E-mail"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row thf-pt-2">
+      <thf-button
+        class="thf-md-4"
+        t-label="Confirmar"
+        [t-disabled]="nemScheduleForm.invalid"
+        (t-click)="save()">
+      </thf-button>
+    </div>
+  </form>
+</thf-page-default>

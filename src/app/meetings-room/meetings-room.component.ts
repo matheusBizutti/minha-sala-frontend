@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
 import { ThfBreadcrumb } from '@totvs/thf-ui/components/thf-breadcrumb';
-import { ThfDialogService } from '@totvs/thf-ui/services/thf-dialog/thf-dialog.service';
 import { ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal/thf-modal.component';
-import { ThfMultiselectOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
 import { ThfPageAction } from '@totvs/thf-ui/components/thf-page';
 
@@ -22,10 +22,9 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
   @ViewChild('modalDelete') modalDelete: ThfModalComponent;
   @ViewChild('modalEdit') modalEdit: ThfModalComponent;
 
-  private subscriptionBusy: Subscription;
+  private subscription: Subscription;
   private subscriptionDelete: Subscription;
   private subscriptionEdit: Subscription;
-  private subscriptionOpen: Subscription;
 
   allMeetingsRoom: Array<Object> = [];
   datashow;
@@ -40,7 +39,7 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
   meetingsRoomBusy: Array<Object> = [];
 
   public readonly actions: Array<ThfPageAction> = [
-    { label: 'Nova sala', action: null, icon: 'thf-icon-plus' },
+    { label: 'Nova sala', action: this.navigateToNewRoom,  icon: 'thf-icon-plus' },
   ];
 
   public readonly breadcrumb: ThfBreadcrumb = {
@@ -57,34 +56,19 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
     label: 'Confirmar'
   };
 
-  options: Array<ThfMultiselectOption> = [
+  options: Array<ThfSelectOption> = [
     { value: 'true', label: 'Sim' },
     { value: 'false', label: 'Não' }
   ];
 
   constructor(private meetingsRoomService: MeetingsRoomService,
               private thfNotification: ThfNotificationService,
-              private thfDialog: ThfDialogService) {
-
-    this.subscriptionOpen = this.meetingsRoomService.getMeetingsRoomOpen().subscribe(response => {
-      this.meetingsRoomOpen = [...response];
-    });
-
-    this.subscriptionBusy = this.meetingsRoomService.getMeetingsRoomBusy().subscribe(response => {
-      this.meetingsRoomBusy = [...response];
-      this.allMeetingsRoom = [...this.meetingsRoomOpen, ...this.meetingsRoomBusy];
-    });
-
-   }
+              private router: Router) {}
 
   ngOnDestroy() {
 
-    if (this.subscriptionBusy) {
-      this.subscriptionBusy.unsubscribe();
-    }
-
-    if (this.subscriptionOpen) {
-      this.subscriptionOpen.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
 
     if (this.subscriptionEdit) {
@@ -97,7 +81,18 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this.meetingsRoomService.getMeetings().subscribe(response => {
+      const meetingsStatusOpen = response.filter(this.filterStatusOpen);
+      const meetingsStatusBusy = response.filter(this.filterStatusBusy);
+
+      this.allMeetingsRoom = [...response];
+      this.meetingsRoomOpen = [...meetingsStatusOpen];
+      this.meetingsRoomBusy = [...meetingsStatusBusy];
+    });
+
+  }
 
   confirmEdit() {
 
@@ -128,12 +123,32 @@ export class MeetingsRoomComponent implements OnInit, OnDestroy {
 
   }
 
+  filterStatusOpen(obj) {
+    if (obj.status === 'open') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  filterStatusBusy(obj) {
+    if (obj.status === 'busy') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   openModal(meeting = [{}], isDelete?) {
 
     this.meetingRoomEdit = meeting;
     this.datashow = this.meetingRoomEdit['datashow'] ? 'true' : 'false';
     isDelete ? this.modalDelete.open() : this.modalEdit.open();
 
+  }
+
+  navigateToNewRoom() {
+    this.router.navigate(['/meetings-room-create']);
   }
 
 }

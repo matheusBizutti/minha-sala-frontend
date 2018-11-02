@@ -1,0 +1,61 @@
+<thf-page-default
+  t-title="Nova sala"
+  [t-breadcrumb]="breadcrumb">
+
+
+  <form #newRoomForm="ngForm">
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-6"
+        name="name"
+        [(ngModel)]="newRoom.name"
+        t-clean
+        t-label="Nome"
+        t-required>
+      </thf-input>
+
+      <thf-input
+        class="thf-md-6"
+        name="username"
+        [(ngModel)]="newRoom.capacity"
+        t-clean
+        t-label="Quantidade de lugares"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row">
+      <thf-select
+        class="thf-md-6"
+        name="datashow"
+        [(ngModel)]="datashow"
+        t-label="Possui datashow"
+        [t-options]="optionsDatashow">
+      </thf-select>
+
+      <thf-select
+        class="thf-md-6"
+        name="status"
+        [(ngModel)]="status"
+        t-label="Possui reservas"
+        [t-options]="optionsStatus">
+      </thf-select>
+
+      <thf-textarea
+        class="thf-md-6"
+        name="description"
+        [(ngModel)]="newRoom.description"
+        t-label="Descrição">
+      </thf-textarea>
+    </div>
+
+    <div class="thf-row thf-pt-2">
+      <thf-button
+        class="thf-md-4"
+        t-label="Confirmar"
+        [t-disabled]="newRoomForm.invalid"
+        (t-click)="save()">
+      </thf-button>
+    </div>
+  </form>
+</thf-page-default>

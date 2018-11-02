@@ -17,6 +17,10 @@ export class MeetingsRoomService {
     return this.http.get(this.baseUrl.getBaseUrl() + 'meeting-room/list/busy');
   }
 
+  getMeetings(): Observable<any> {
+    return this.http.get(this.baseUrl.getBaseUrl() + 'meeting-room/list/init/end');
+  }
+
   updateMeetingRoom(body = {}, roomId = ''): Observable<any> {
     return this.http.put(this.baseUrl.getBaseUrl() + 'meeting-room/' + `${roomId}` + '/update',  body, { responseType: 'text'});
   }

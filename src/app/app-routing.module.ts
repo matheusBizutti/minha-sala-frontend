@@ -13,6 +13,16 @@ const routes: Routes = [
       },
       { path: 'meetings-room',
         loadChildren: './meetings-room/meetings-room.module#MeetingsRoomModule'
+      },
+      { path: 'meetings-room-create',
+        loadChildren: './meetings-room-create/meetings-room-create.module#MeetingsRoomCreateModule'
+      },
+      { path: 'schedule-request',
+        loadChildren: './schedules-requests/schedules-requests.module#SchedulesRequestsModule'
+      },
+      {
+        path: 'schedule-request-create',
+        loadChildren: './schedules-requests-create/schedules-requests-create.module#ScheduleRequestsCreateModule'
       }
     ]
   },

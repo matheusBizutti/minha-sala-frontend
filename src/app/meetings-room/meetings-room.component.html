@@ -1,14 +1,3 @@
-<!-- <thf-page-edit
-  [t-breadcrumb]="breadcrumb"
-  [t-disable-submit]="formMeetingsRoom.invalid"
-  t-title="Salas">
-
-  <form #formMeetingsRoom="ngForm">
-
-  </form>
-
-</thf-page-edit> -->
-
 <thf-page-default
   t-title="Salas"
   [t-actions]="actions"
@@ -24,7 +13,7 @@
       (t-primary-action)="openModal(meetings)"
       (t-secondary-action)="openModal(meetings, '2')">
 
-      <div class="thf-font-subtitle thf-text-center">Capacidade: {{ meetings.capacity }}</div>
+      <div class="thf-font-subtitle thf-text-center">Lugares: {{ meetings.capacity }}</div>
       <div *ngIf="meetings.datashow; else nodatashow" class="thf-text-center">
         <thf-tag t-type="success" t-value="DATASHOW"></thf-tag>
       </div>
@@ -91,6 +80,7 @@
         class="thf-md-6"
         t-label="Confirmar"
         t-primary
+        [t-disabled]="editForm.invalid"
         (t-click)="confirmEdit()">
       </thf-button>
     </div>

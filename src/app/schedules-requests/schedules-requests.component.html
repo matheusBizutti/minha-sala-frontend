@@ -1,0 +1,93 @@
+<thf-page-default
+  t-title="Agendamentos"
+  [t-actions]="actions"
+  [t-breadcrumb]="breadcrumb">
+
+  <div class="thf-row">
+    <thf-widget
+      *ngFor="let schedule of schedulesRequests; let i = index"
+      class="thf-md-12 thf-lg-4 thf-mb-2"
+      t-primary-label="Editar"
+      t-secondary-label="Remover"
+      t-title="Schedule: {{ schedule.title }}"
+      (t-primary-action)="openModal(schedule)"
+      (t-secondary-action)="openModal(schedule, '2')">
+
+      <div class="thf-font-subtitle thf-text-center">{{ sendDateFormat(schedule) }}</div>
+      <div class="thf-font-text thf-text-center">das: {{ schedule.scheduleHourInit }} - até: {{ schedule.scheduleHourEnd }}</div>
+      <div class="thf-font-text thf-text-center">reservado por: {{ schedule.userEmail }}</div>
+
+    </thf-widget>
+
+  </div>
+
+</thf-page-default>
+
+<thf-modal #modalEdit
+  t-close
+  t-size="lg"
+  t-title="Editar agendamento">
+
+  <form #editForm="ngForm">
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-12"
+        name="title"
+        [(ngModel)]="schedulesRequestsEdit.title"
+        t-clean
+        t-label="Título do agendamento"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row">
+      <thf-input
+        class="thf-md-6"
+        name="hourinit"
+        [(ngModel)]="schedulesRequestsEdit.scheduleHourInit"
+        t-clean
+        t-label="Hora inicial"
+        t-mask="99:99"
+        t-required>
+      </thf-input>
+
+      <thf-input
+        class="thf-md-6"
+        name="hourend"
+        [(ngModel)]="schedulesRequestsEdit.scheduleHourEnd"
+        t-clean
+        t-label="Hora final"
+        t-mask="99:99"
+        t-required>
+      </thf-input>
+    </div>
+
+    <div class="thf-row thf-pt-2">
+      <thf-button
+        class="thf-md-6"
+        t-label="Confirmar"
+        t-primary
+        [t-disabled]="editForm  .invalid"
+        (t-click)="confirmEdit()">
+      </thf-button>
+    </div>
+
+  </form>
+
+</thf-modal>
+
+<thf-modal #modalDelete
+  t-close
+  t-title="Excluir"
+  t-size="lg">
+
+  <div class="thf-font-text">Tem certeza de que deseja remover este agendamento?</div>
+  <div class="thf-row thf-pt-2">
+    <thf-button
+      class="thf-md-3"
+      t-label="Confirmar"
+      t-primary
+      (t-click)="deleteSchedulesRequest()">
+    </thf-button>
+  </div>
+</thf-modal>

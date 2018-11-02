@@ -5,8 +5,6 @@ import { ThfMenuItem } from '@totvs/thf-ui/components/thf-menu';
 import { ThfToolbarAction, ThfToolbarProfile } from '@totvs/thf-ui/components/thf-toolbar';
 import { AuthService } from '../auth/auth.service';
 
-// import { AuthService } from './../auth/auth.service';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,8 +16,9 @@ export class HomeComponent implements OnInit {
 
   items: Array<ThfMenuItem> = [
     { label: 'Salas', link: '/meetings-room', icon: 'device-desktop', shortLabel: 'Salas' },
-    { label: 'Agendamentos', icon: 'calendar-ok', shortLabel: 'Agend.' },
-    { label: 'Métricas', link: '', icon: 'chart-area', shortLabel: 'Métricas' }
+    { label: 'Agendamentos', icon: 'calendar-ok', link: '/schedule-request', shortLabel: 'Agend.' },
+    { label: 'Métricas', link: '', icon: 'chart-area', shortLabel: 'Métricas' },
+    { label: 'Dashboard', link: '/schedule-list', icon: 'chart-area', shortLabel: 'Dashboard' }
   ];
 
   public readonly profile: ThfToolbarProfile = {

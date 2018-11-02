@@ -30,18 +30,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private scheduleService: ScheduleListService) {
-
-    this.subscriptionOpen = this.scheduleService.getMeetingsRoomOpen().subscribe(response => {
-      this.meetingsRoomOpen = [...response];
-    });
-
-    this.subscriptionBusy = this.scheduleService.getMeetingsRoomBusy().subscribe(response => {
-      this.meetingsRoomBusy = [...response];
-      this.allMeetingsRoom = [...this.meetingsRoomOpen, ...this.meetingsRoomBusy];
-    });
-
-  }
+  constructor(private scheduleService: ScheduleListService) {}
 
   ngOnDestroy() {
 
@@ -55,7 +44,34 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this.scheduleService.getMeetings().subscribe(response => {
+      const meetingsStatusOpen = response.filter(this.filterStatusOpen);
+      const meetingsStatusBusy = response.filter(this.filterStatusBusy);
+
+      this.allMeetingsRoom = [...response];
+      this.meetingsRoomOpen = [...meetingsStatusOpen];
+      this.meetingsRoomBusy = [...meetingsStatusBusy];
+    });
+
+  }
+
+  filterStatusOpen(obj) {
+    if (obj.status === 'open') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  filterStatusBusy(obj) {
+    if (obj.status === 'busy') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   getColumns(): Array<ThfTableColumn> {
     return [
