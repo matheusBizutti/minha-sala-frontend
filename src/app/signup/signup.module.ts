@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
+import { SignupService } from './signup.service';
+import { SignupComponent } from './signup.component';
+import { SignupRouting } from './signup.routing';
 
-import { MeetingsRoomCreateComponent } from '../meetings-room-create/meetings-room-create.component';
-import { MeetingsRoomCreateRouting } from '../meetings-room-create/meetings-room-create.routing';
-import { MeetingsRoomCreateService } from '../meetings-room-create/meetings-room-create.service';
 
 @NgModule({
   imports: [
     SharedModule,
-    MeetingsRoomCreateRouting
+    SignupRouting
   ],
   declarations: [
-    MeetingsRoomCreateComponent
+    SignupComponent
   ],
-  providers: [MeetingsRoomCreateService],
+  providers: [SignupService],
   bootstrap: []
 })
 export class SignupModule { }

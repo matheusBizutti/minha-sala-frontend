@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class BaseUrl {
 
-  private url = 'http://localhost:3000/api/';
+  private url = 'http://40.121.33.135:3000/api/';
 
   constructor() { }
 
@@ -14,7 +14,7 @@ export class BaseUrl {
   }
 
   getBaseUrlAuthenticate() {
-    return 'http://localhost:3000/authenticate/';
+    return 'http://40.121.33.135:3000/authenticate/';
   }
 
 }
